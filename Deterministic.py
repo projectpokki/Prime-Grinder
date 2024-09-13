@@ -8,10 +8,10 @@ def isPrime(n):
       return False
   return True
  
-def getDeltaPattern(n, Kn):
+def getDeltaPattern(n, Kn, fileToUse):
   newDeltaPattern = []
   lastValue = -1
-  #with open("Files/primes.txt", "r") as file:
+  #with open(fileToUse, "r") as file:
   primesNeeded = primes[:n]
     # primesNeeded = file.read().split("\n")[:n]
   for i in range(1, Kn):
@@ -20,7 +20,7 @@ def getDeltaPattern(n, Kn):
       lastValue = i
   return newDeltaPattern
 
-def findPrimes(nMax):
+def findPrimes(nMax, fileToUse):
   startTime = time()
   global primes
   global usedPrimes
@@ -40,7 +40,7 @@ def findPrimes(nMax):
   deltaProduct = 6
   deltaIndex = 0
 
-  with open("Files/primes.txt", mode="w") as file:
+  with open(fileToUse, mode="w") as file:
     file.write("2\n")
       
   while n <= nMax:
@@ -55,7 +55,7 @@ def findPrimes(nMax):
         primeRoot = usedPrimes[-1]
       if not (len(primes) & 0xfff):
         print(f"{len(primes)}th prime found, value {n}, {(100*n)/nMax}% done")
-        with open("Files/primes.txt", mode="a") as file:
+        with open(fileToUse, mode="a") as file:
           file.write("\n".join(newPrimes) + "\n")
         newPrimes = []
     else:
@@ -64,7 +64,7 @@ def findPrimes(nMax):
     #change delta pattern, generalise this
     if n + 1 >= deltaProduct:
       print(f"delta stage to {deltaStage + 2}, delta product {deltaProduct}")
-      deltaPattern = getDeltaPattern(deltaStage + 2, deltaProduct)
+      deltaPattern = getDeltaPattern(deltaStage + 2, deltaProduct, fileToUse)
       deltaProduct *= primes[deltaStage + 2]
       deltaStage += 1
       usedPrimes = usedPrimes[1:]
@@ -77,4 +77,6 @@ def findPrimes(nMax):
   print(f"\nprimes found = {len(primes)}\ncomposites checked = {nonprimeCount}\ntotal numbers checked = {valuesChecked}")
   print("time taken", (time() - startTime) * 1000)
 
-findPrimes(10**7)
+nMax = int(input("Find primes up to: "))
+fileToUse = input("Path of file to use: ")
+findPrimes(nMax, fileToUse)
