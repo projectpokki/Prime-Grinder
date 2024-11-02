@@ -5,8 +5,8 @@ def MillerRabin(n: int, trials: int) -> bool: #chance of pseudoprime is 0.25**tr
         return True
     if (n <= 1) or not (n & 1):
         return False
-    exp = n - 1
-    shifts = 0
+    exp: int = n - 1
+    shifts: int = 0
     while not (exp & 1):
         exp >>= 1
         shifts += 1
@@ -17,7 +17,7 @@ def MillerRabin(n: int, trials: int) -> bool: #chance of pseudoprime is 0.25**tr
         if pow(witness, exp, n) == 1:
             continue #probably prime, skip to next trial
         
-        isComposite = True
+        isComposite: bool = True
         for _ in range(shifts):
             if pow(witness, exp, n) == n-1: #probably prime
                 isComposite = False
