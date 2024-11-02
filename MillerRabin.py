@@ -2,8 +2,6 @@ from random import randrange
 
 def MillerRabinSingleTest(n: int, witness: int) -> bool:
     exp: int = n - 1
-    while not (n & 1):
-        exp >>= 1
 
     if pow(witness, exp, n) == 1:
         return True
